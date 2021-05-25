@@ -2,9 +2,8 @@ package org.homi.test.core.plugins.proxy;
 
 
 import org.homi.core.plugins.proxy.CommanderProxy;
-import org.homi.plugin.api.AbstractPlugin;
 import org.homi.plugin.api.Commander;
-
+import org.homi.plugin.api.basicplugin.AbstractBasicPlugin;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -18,7 +17,7 @@ class CommanderProxyTester {
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
-		AbstractPlugin ap = new DummyPlugin();
+		AbstractBasicPlugin ap = new DummyPlugin();
 		ap.setup();
 		commander = ap.getCommander(TestSpec.class);
 	}

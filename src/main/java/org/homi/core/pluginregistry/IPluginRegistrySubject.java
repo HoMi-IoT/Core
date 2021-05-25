@@ -1,4 +1,4 @@
-package org.homi.core.plugins;
+package org.homi.core.pluginregistry;
 
 import org.homi.plugin.api.IPlugin;
 import org.homi.plugin.api.IPluginRegistryListener;

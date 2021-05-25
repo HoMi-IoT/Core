@@ -2,11 +2,11 @@ package org.homi.test.core.plugins.proxy;
 
 import java.util.HashMap;
 
-import org.homi.plugin.api.AbstractPlugin;
 import org.homi.plugin.api.CommanderBuilder;
 import org.homi.plugin.api.IReceiver;
+import org.homi.plugin.api.basicplugin.AbstractBasicPlugin;
 
-public class DummyPlugin extends AbstractPlugin{
+public class DummyPlugin extends AbstractBasicPlugin{
 
 	@Override
 	public void setup() {

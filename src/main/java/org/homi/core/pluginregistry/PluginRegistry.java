@@ -1,35 +1,51 @@
-package org.homi.core.plugins;
+package org.homi.core.pluginregistry;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-
+import org.homi.core.plugins.proxy.BasicPluginProxy;
 import org.homi.plugin.api.IPlugin;
 import org.homi.plugin.api.IPluginRegistryListener;
+import org.homi.plugin.api.basicplugin.IBasicPlugin;
+import org.homi.plugin.api.exceptions.PluginUnavailableException;
 
 public class PluginRegistry implements IPluginRegistrySubject {
 	private Map <String, List<IPlugin>> modulePlugins = new ConcurrentHashMap<>();
+	
 	private List<IPluginRegistryListener> listeners = new ArrayList<>();
 	
+	
+	public Set<String> getBundles(){
+		return this.modulePlugins.keySet();
+	}
+	
+	public List<IPlugin> getPlugins(String bundle){
+		return this.modulePlugins.getOrDefault(bundle, List.of());
+	}
+	
 	public void addPlugin(String bundle, IPlugin plugin) {
-		List<IPlugin> pluginsList = getPluginListForBundle(bundle);
-		pluginsList.add(plugin);
+		modulePlugins.putIfAbsent(bundle, new ArrayList<>());
+		modulePlugins.get(bundle).add(plugin);
 		notifyListenersOfPluginAdded(plugin);
 	}
 	
-	private List<IPlugin> getPluginListForBundle(String bundle) {
-		List<IPlugin> l = modulePlugins.getOrDefault(bundle, new ArrayList<IPlugin>());
-		modulePlugins.putIfAbsent(bundle, l);
-		return l;
-	}
-
-	public void removePlugin(String bundle, String pluginID) {
-		// List<IPlugin> pluginsList = getPluginListForBundle(bundle);
-		// TODO remove plugin
-		List<IPlugin> pluginsList = getPluginListForBundle(bundle);
-		//pluginsList.remove(plugin);
+	public void removePlugins(String bundle) {
+		modulePlugins.getOrDefault(bundle, List.of())
+			.forEach((plugin)->{
+				if(plugin instanceof IBasicPlugin) {
+					BasicPluginProxy p = (BasicPluginProxy) plugin;
+					try {
+						notifyListenersOfPluginRemoved(p);
+						p.teardown();
+					} catch (PluginUnavailableException e) {
+						e.printStackTrace();
+					}
+				}
+			});
+		modulePlugins.remove(bundle);
 	}
 
 	@Override
