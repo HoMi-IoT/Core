@@ -2,7 +2,7 @@ package org.homi.test.core.plugins.proxy;
 
 
 import org.homi.core.plugins.proxy.CommanderProxy;
-import org.homi.plugin.api.Commander;
+import org.homi.plugin.api.commander.Commander;
 import org.homi.plugin.api.basicplugin.AbstractBasicPlugin;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;

@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.homi.plugin.api.Commander;
+import org.homi.plugin.api.commander.Commander;
 import org.homi.plugin.specification.ISpecification;
 import org.homi.plugin.specification.SpecificationID;
 

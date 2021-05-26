@@ -1,5 +1,7 @@
 package org.homi.test.core.plugins.proxy;
 
+import java.util.List;
+
 import org.homi.plugin.specification.ISpecification;
 import org.homi.plugin.specification.SpecificationHelper;
 import org.homi.plugin.specification.SpecificationID;
@@ -16,23 +18,19 @@ public enum TestSpec implements ISpecification{
 	SEND_STRING(String.class, String.class),
 	SEND_INTEGER(Void.class, Integer.class);
 	
-	private TypeDef<?>[] parameterTypes;
+	private List<TypeDef<?>> parameterTypes;
 	private TypeDef<?> returnType;
 	TestSpec(Object returnType, Object...parameterTypes ) {
 		try {
 			this.returnType = SpecificationHelper.processType(returnType);
-			this.parameterTypes = new TypeDef<?>[parameterTypes.length];
-			
-			for(int i =0; i<parameterTypes.length; i++) {
-				this.parameterTypes[i] = SpecificationHelper.processType(parameterTypes[i]);
-			}
+			this.parameterTypes = SpecificationHelper.processTypes(parameterTypes);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
+	
 	@Override
-	public TypeDef<?>[] getParameterTypes() {
+	public List<TypeDef<?>> getParameterTypes() {
 		return this.parameterTypes;
 	}
 	

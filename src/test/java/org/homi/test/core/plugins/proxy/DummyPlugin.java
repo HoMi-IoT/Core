@@ -2,8 +2,8 @@ package org.homi.test.core.plugins.proxy;
 
 import java.util.HashMap;
 
-import org.homi.plugin.api.CommanderBuilder;
-import org.homi.plugin.api.IReceiver;
+import org.homi.plugin.api.commander.CommanderBuilder;
+import org.homi.plugin.api.commander.IReceiver;
 import org.homi.plugin.api.basicplugin.AbstractBasicPlugin;
 
 public class DummyPlugin extends AbstractBasicPlugin{
@@ -51,8 +51,6 @@ public class DummyPlugin extends AbstractBasicPlugin{
 
 	@Override
 	public void teardown() {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

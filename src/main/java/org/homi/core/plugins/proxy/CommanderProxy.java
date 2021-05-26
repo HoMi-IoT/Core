@@ -2,7 +2,7 @@ package org.homi.core.plugins.proxy;
 
 import java.util.concurrent.Future;
 
-import org.homi.plugin.api.Commander;
+import org.homi.plugin.api.commander.Commander;
 import org.homi.plugin.api.exceptions.InternalPluginException;
 import org.homi.plugin.specification.ISpecification;
 import org.homi.plugin.specification.exceptions.ArgumentLengthException;
