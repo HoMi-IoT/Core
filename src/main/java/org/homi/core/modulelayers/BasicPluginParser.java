@@ -8,6 +8,7 @@ import org.homi.plugin.api.IPluginProvider;
 import org.homi.plugin.api.PluginID;
 import org.homi.plugin.api.basicplugin.AbstractBasicPlugin;
 import org.homi.plugin.api.basicplugin.IBasicPlugin;
+import org.homi.plugin.api.exceptions.PluginUnavailableException;
 
 public class BasicPluginParser implements IModuleLayerParser {
 	
@@ -25,14 +26,25 @@ public class BasicPluginParser implements IModuleLayerParser {
         	.stream()
             .map(p -> p.get())
             .forEach((plugin)->{
-            	if(plugin.getClass().isAnnotationPresent(PluginID.class)) {
-	            	AbstractBasicPlugin p = (AbstractBasicPlugin) plugin;
-	            	p.setPluginProvider(this.pluginProvider);
-	            	BasicPluginProxy bpp = new BasicPluginProxy(p);
-	            	bpp.setup();
-	            	pr.addPlugin(bundle, plugin);
-            	}
+            	if(hasPluginID(plugin))
+            		addPlugin(bundle, plugin);
             });
+	}
+
+	private boolean hasPluginID(IBasicPlugin plugin) {
+		return plugin.getClass().isAnnotationPresent(PluginID.class);
+	}
+
+	private void addPlugin(String bundle, IBasicPlugin plugin) {
+		AbstractBasicPlugin p = (AbstractBasicPlugin) plugin;
+		p.setPluginProvider(this.pluginProvider);
+		BasicPluginProxy bpp = new BasicPluginProxy(p);
+		try {
+			bpp.setup();
+			pr.addPlugin(bundle, bpp);
+		} catch (PluginUnavailableException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
