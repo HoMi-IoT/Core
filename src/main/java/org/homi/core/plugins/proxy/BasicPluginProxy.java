@@ -1,12 +1,13 @@
 package org.homi.core.plugins.proxy;
 
-import org.homi.plugin.api.basicplugin.*;
 import org.homi.plugin.api.exceptions.PluginUnavailableException;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.homi.plugin.api.basicplugin.AbstractBasicPlugin;
+import org.homi.plugin.api.basicplugin.IBasicPlugin;
 import org.homi.plugin.api.commander.Commander;
 import org.homi.plugin.specification.ISpecification;
 import org.homi.plugin.specification.SpecificationID;
@@ -20,13 +21,20 @@ public class BasicPluginProxy implements IBasicPlugin {
 		this.plugin = plugin;
 	}
 
-	public void setup() {
+	@Override
+	public String id() {
+		return this.plugin.id();
+	}
+	
+	public void setup() throws PluginUnavailableException {
 		if(this.plugin != null) {
-			this.plugin.setup();
-			this.plugin.getSpecifications().forEach((spec)->{
-				addCommanderProxy( spec, plugin.getCommander(spec));
-			});
+			throw new PluginUnavailableException();
 		}
+		
+		this.plugin.setup();
+		this.plugin.getSpecifications().forEach((spec)->{
+			addCommanderProxy( spec, plugin.getCommander(spec));
+		});
 	}
 
 	
