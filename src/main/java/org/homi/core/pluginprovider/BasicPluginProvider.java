@@ -58,7 +58,7 @@ public class BasicPluginProvider implements IPluginProvider {
 					IBasicPlugin p = (IBasicPlugin)plugin;
 					try {
 						for(Class<? extends ISpecification> spec : p.getSpecifications()) {
-							if(spec.getClass().getAnnotation(SpecificationID.class).id() == specId) {
+							if(spec.getClass().isAnnotationPresent(SpecificationID.class) && spec.getClass().getAnnotation(SpecificationID.class).id() == specId) {
 								plugins.add(plugin);
 							}
 						}
