@@ -39,7 +39,6 @@ public class BasicPluginProxy implements IBasicPlugin {
 
 	
 	public void teardown() throws PluginUnavailableException {
-		plugin.teardown();
 		this.getSpecifications().forEach((spec)->{
 			try {
 				((CommanderProxy<?>)this.getCommander(spec)).detach();
@@ -48,6 +47,7 @@ public class BasicPluginProxy implements IBasicPlugin {
 			}
 		});
 		this.plugin = null;
+		plugin.teardown();
 	}
 
 	private <T extends Enum<T> & ISpecification> void addCommander(Class<T> spec,Commander<T> commander) {

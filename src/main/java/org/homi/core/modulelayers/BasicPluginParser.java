@@ -10,11 +10,15 @@ import org.homi.plugin.api.PluginID;
 import org.homi.plugin.api.basicplugin.AbstractBasicPlugin;
 import org.homi.plugin.api.basicplugin.IBasicPlugin;
 import org.homi.plugin.api.exceptions.PluginUnavailableException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BasicPluginParser implements IModuleLayerParser {
+
+	private static final Logger logger = LoggerFactory.getLogger(BasicPluginParser.class);
 	
 	private PluginRegistry pr;
-	private  IPluginProvider pluginProvider;
+	private IPluginProvider pluginProvider;
 	
 	public BasicPluginParser(PluginRegistry pr, IPluginProvider iPluginProvider) {
 		this.pr = pr;
@@ -23,14 +27,19 @@ public class BasicPluginParser implements IModuleLayerParser {
 	
 	@Override
 	public void addPlugins(String bundle, ModuleLayer layer) {
+		BasicPluginParser.logger.trace("addingPlugins");
         getBasicPluginsFromLayer(layer).forEach((plugin)->{
-            	if(hasPluginID(plugin))
-            		addPlugin(bundle, (AbstractBasicPlugin) plugin);
+    		BasicPluginParser.logger.trace("Processing Plugin: {}", plugin);
+            if(hasPluginID(plugin)) {
+        		BasicPluginParser.logger.trace("Plugin {} has id {}", plugin, plugin.id());
+            	addPlugin(bundle, (AbstractBasicPlugin) plugin);
+            }
             });
 	}
 
 	@Override
 	public void removePlugins(String bundle) {
+		BasicPluginParser.logger.trace("removing bundle {}", bundle);
 		this.pr.removePlugins(bundle);
 	}
 
