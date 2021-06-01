@@ -3,6 +3,8 @@ module org.homi.core {
 	requires org.homi.plugin.api;
 	requires org.homi.plugin.specification;
 	requires org.slf4j;
+	requires logback.classic;
+	requires logback.core;
 	//requires layrry.core;
 
 	exports org.homi.core;
