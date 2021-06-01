@@ -46,8 +46,8 @@ public class BasicPluginProxy implements IBasicPlugin {
 				throw new RuntimeException(e);
 			}
 		});
-		this.plugin = null;
 		plugin.teardown();
+		this.plugin = null;
 	}
 
 	private <T extends Enum<T> & ISpecification> void addCommander(Class<T> spec,Commander<T> commander) {
