@@ -36,12 +36,17 @@ public class BasicPluginProvider implements IPluginProvider {
 	public IPlugin getPluginByID(String pluginId) {
 		BasicPluginProvider.logger.trace("getting plugin with id {}", pluginId);
 		for(String bundle: pr.getBundles()) {
+			BasicPluginProvider.logger.trace("Looking in bundle {}", bundle);
+			
 			for(IPlugin plugin: pr.getPlugins(bundle)) {
-				if(plugin.id() == pluginId) {
+				BasicPluginProvider.logger.trace("checking id {}", plugin.id());
+				if(plugin.id().equals(pluginId)) {
+					BasicPluginProvider.logger.trace("Found it!");
 					return plugin;
 				}
 			}
 		}
+		BasicPluginProvider.logger.trace("didn't Find it!");
 		return null;
 	}
 

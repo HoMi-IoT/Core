@@ -3,12 +3,15 @@ package org.homi.core.modulelayers;
 import java.util.List;
 import java.util.ServiceLoader;
 import java.util.stream.Collectors;
+
+import org.homi.core.ExecutorServiceManager;
 import org.homi.core.pluginregistry.PluginRegistry;
 import org.homi.core.plugins.proxy.BasicPluginProxy;
 import org.homi.plugin.api.IPluginProvider;
 import org.homi.plugin.api.PluginID;
 import org.homi.plugin.api.basicplugin.AbstractBasicPlugin;
 import org.homi.plugin.api.basicplugin.IBasicPlugin;
+import org.homi.plugin.api.exceptions.PluginException;
 import org.homi.plugin.api.exceptions.PluginUnavailableException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +36,13 @@ public class BasicPluginParser implements IModuleLayerParser {
             if(hasPluginID(plugin)) {
         		BasicPluginParser.logger.trace("Plugin {} has id {}", plugin, plugin.id());
             	addPlugin(bundle, (AbstractBasicPlugin) plugin);
+            	try {
+					plugin.getWorkers().forEach((worker)->{
+						ExecutorServiceManager.getExecutorService().execute(worker);
+					});
+				} catch (PluginException e) {
+					e.printStackTrace();
+				}
             }
             });
 	}

@@ -27,7 +27,7 @@ public class BasicPluginProxy implements IBasicPlugin {
 	}
 	
 	public void setup() throws PluginUnavailableException {
-		if(this.plugin != null) {
+		if(this.plugin == null) {
 			throw new PluginUnavailableException();
 		}
 		
