@@ -18,6 +18,7 @@ public class Core {
 		((ch.qos.logback.classic.Logger)LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME)).setLevel(Level.ALL);
 		Logger logger = LoggerFactory.getLogger(Core.class);
 		logger.trace("Core starting setup");
+		logger.trace("Core has loader {}", Core.class.getClassLoader());
 		
 		PluginRegistry pr = new PluginRegistry();
 		IModuleLayerParser BasicParser = new BasicPluginParser(pr, new BasicPluginProvider(pr) );

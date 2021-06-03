@@ -2,6 +2,8 @@ package org.homi.core.modulelayers;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.homi.core.ExecutorServiceManager;
 import org.homi.core.modulelayers.IModuleLayerParser;
 import org.moditect.layrry.platform.PluginDescriptor;
 import org.moditect.layrry.platform.PluginLifecycleListener;
@@ -26,7 +28,7 @@ public class PluginMonitor implements PluginLifecycleListener {
 	public void pluginAdded(PluginDescriptor plugin) {
 		PluginMonitor.logger.trace("Plugin Added: {}", plugin.getName());
 		for(IModuleLayerParser parser: moduleLayerParsers) {
-			parser.addPlugins(plugin.getName(), plugin.getModuleLayer());
+			ExecutorServiceManager.getExecutorService().execute(()->{parser.addPlugins(plugin.getName(), plugin.getModuleLayer());});
 		}
 	}
 
@@ -34,7 +36,7 @@ public class PluginMonitor implements PluginLifecycleListener {
 	public void pluginRemoved(PluginDescriptor plugin) {
 		PluginMonitor.logger.trace("Plugin Removed: {}", plugin.getName());
 		for(IModuleLayerParser parser: moduleLayerParsers) {
-			parser.removePlugins(plugin.getName());
+			ExecutorServiceManager.getExecutorService().execute(()->{parser.removePlugins(plugin.getName());});
 		}
 	}
 

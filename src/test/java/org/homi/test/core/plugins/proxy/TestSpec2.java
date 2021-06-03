@@ -5,7 +5,7 @@ import java.util.List;
 import org.homi.plugin.specification.ISpecification;
 import org.homi.plugin.specification.SpecificationHelper;
 import org.homi.plugin.specification.SpecificationID;
-import org.homi.plugin.specification.TypeDef;
+import org.homi.plugin.specification.types.TypeDef;
 
 
 @SpecificationID(id = "TestSpec2")
